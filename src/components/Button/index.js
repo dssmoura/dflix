@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const Button = styled.button`
   color: var(--white);
@@ -11,9 +11,11 @@ const Button = styled.button`
   font-size: 16px;
   outline: none;
   border-radius: 5px;
+  background-color: black;
   text-decoration: none;
   display: inline-block;
   transition: opacity .3s;
+  margin-top: 10px;
 
   &:hover,
   &:focus {
@@ -21,4 +23,4 @@ const Button = styled.button`
   }
 `;
 
-export default Button
+export default Button;
