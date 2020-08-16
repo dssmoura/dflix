@@ -29,7 +29,7 @@ function CadastroCategoria() {
   }
 
   useEffect(() => {
-    if (window.location.href.includes('localhost')) {
+    if (window.location.href.includes('dflix')) {
       const URL = 'https://dflix.herokuapp.com/categorias';
       fetch(URL)
         .then(async (respostaDoServer) => {
