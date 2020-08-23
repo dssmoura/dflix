@@ -12,72 +12,73 @@ function CadastroVideo() {
   const [categorias, setCategorias] = useState([]);
   const categoryTitles = categorias.map(({ titulo }) => titulo);
   const { handleChange, values } = useForm({
-    titulo: 'Video padrão',
-    url: 'https://www.youtube.com/watch?v=jOAU81jdi-c',
-    categoria: 'Front End',
+    titulo: '',
+    url: '',
+    categoria: '',
   });
 
   useEffect(() => {
-    categoriasRepository
-      .getAll()
-      .then((categoriasFromServer) => {
-        setCategorias(categoriasFromServer);
-      });
+    categoriasRepository.getAll()
+      .then((categoriasFromServer) => setCategorias(categoriasFromServer));
   }, []);
+
+  function onSubmitHandler(event) {
+    event.preventDefault();
+    const categoriaEncontrada = categorias.find((categoria) => categoria.titulo === values.categoria);
+
+    videosRepository.insert({
+      titulo: values,
+      url: values.url,
+      categoriaId: categoriaEncontrada.id,
+    })
+      .then(() => {
+        history.push('/');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   return (
     <PageDefault>
-      <h1>Cadastro de Video</h1>
+      <h1>
+        Cadastro de Vídeo
+      </h1>
+      <form onSubmit={onSubmitHandler}>
 
-      <form onSubmit={(event) => {
-        event.preventDefault();
-        // alert('Video Cadastrado com sucesso!!!1!');
-
-        const categoriaEscolhida = categorias.find((categoria) => categoria.titulo === values.categoria);
-
-        videosRepository.create({
-          titulo: values.titulo,
-          url: values.url,
-          categoriaId: categoriaEscolhida.id,
-        })
-          .then(() => {
-            console.log('Cadastrou com sucesso!');
-            history.push('/');
-          });
-      }}
-      >
         <FormField
-          label="Título do Vídeo"
-          name="titulo"
+          id="titulo"
+          label="Título"
           value={values.titulo}
-          onChange={handleChange}
+          onChangeHandler={handleChange}
         />
 
         <FormField
+          id="url"
           label="URL"
-          name="url"
           value={values.url}
-          onChange={handleChange}
+          onChangeHandler={handleChange}
         />
 
         <FormField
+          id="categoria"
           label="Categoria"
-          name="categoria"
           value={values.categoria}
-          onChange={handleChange}
           suggestions={categoryTitles}
+          onChangeHandler={handleChange}
         />
 
         <Button type="submit">
           Cadastrar
         </Button>
+
       </form>
 
-      <br />
-      <br />
-
       <Link to="/cadastro/categoria">
-        Cadastrar Categoria
+        <div>
+          <br/>
+          Cadastrar Categoria
+        </div>
       </Link>
     </PageDefault>
   );

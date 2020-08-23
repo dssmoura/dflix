@@ -1,32 +1,48 @@
 import config from '../config';
 
-const URL_CATEGORIES = `${config.URL_BACKEND_TOP}/categorias`;
+const END_POINT_CATEGORIES = `${config.URL_BACKEND}/categorias`;
 
-function getAll() {
-  return fetch(`${URL_CATEGORIES}`)
-    .then(async (respostaDoServidor) => {
-      if (respostaDoServidor.ok) {
-        const resposta = await respostaDoServidor.json();
+function getAllWithVideos() {
+  return fetch(`${END_POINT_CATEGORIES}?_embed=videos`)
+    .then(async (response) => {
+      if (response.ok) {
+        const resposta = await response.json();
         return resposta;
       }
-
-      throw new Error('Não foi possível pegar os dados :(');
+      throw new Error('Não foi possível carregar os dados do servidor :(');
     });
 }
 
-function getAllWithVideos() {
-  return fetch(`${URL_CATEGORIES}?_embed=videos`)
-    .then(async (respostaDoServidor) => {
-      if (respostaDoServidor.ok) {
-        const resposta = await respostaDoServidor.json();
+function getAll() {
+  return fetch(END_POINT_CATEGORIES)
+    .then(async (response) => {
+      if (response.ok) {
+        const resposta = await response.json();
         return resposta;
       }
+      throw new Error('Não foi possível carregar os dados do servidor :(');
+    });
+}
 
-      throw new Error('Não foi possível pegar os dados :(');
+function insert(values) {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(values),
+  };
+
+  return fetch(END_POINT_CATEGORIES, requestOptions)
+    .then(async (response) => {
+      if (response.ok) {
+        const resposta = await response.json();
+        return resposta;
+      }
+      throw new Error('Não foi possível carregar os dados do servidor :(');
     });
 }
 
 export default {
   getAllWithVideos,
   getAll,
+  insert,
 };

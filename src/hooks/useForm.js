@@ -2,17 +2,17 @@ import { useState } from 'react';
 
 function useForm(valoresIniciais) {
   const [values, setValues] = useState(valoresIniciais);
+
   function setValue(chave, valor) {
-    // chave: nome, descricao, bla, bli
     setValues({
       ...values,
-      [chave]: valor, // nome: 'valor'
+      [chave]: valor,
     });
   }
 
   function handleChange(infosDoEvento) {
     setValue(
-      infosDoEvento.target.getAttribute('name'),
+      infosDoEvento.target.getAttribute('id'),
       infosDoEvento.target.value,
     );
   }
@@ -20,10 +20,12 @@ function useForm(valoresIniciais) {
   function clearForm() {
     setValues(valoresIniciais);
   }
+
   return {
     values,
     handleChange,
     clearForm,
   };
 }
+
 export default useForm;
