@@ -5,7 +5,7 @@ function Footer() {
   return (
     <FooterBase>
       <p>
-        Projeto de imerssão em react
+        Danilo Moura
         {' '}
         <a href="/">
           DsM
